@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>User Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+<body>
+{% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-10"><h1>{{ request.user.username }}</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><!--left col-->
+
+
+            <div class="text-center">
+                {% if request.user.profile_picture %}
+                    <img src="{{ request.user.profile_picture.url }}" class="avatar img-circle img-thumbnail"
+                         alt="avatar" style="height: 250px">
+                {% else %}
+                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail"
+                         alt="avatar" style="height: 250px">
+                {% endif %}
+                <h6>Upload your photo here...</h6>
+            </div>
+            </hr><br>
+
+        </div><!--/col-3-->
+        <div class="col-sm-9">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home"> <i class="fas fa-user"></i> My Profile</a></li>
+                <li><a data-toggle="tab" href="#messages"> <i class="fas fa-briefcase"></i> My Projects</a></li>
+                <li><a data-toggle="tab" href="#settings"> <i class="fas fa-dollar-sign"></i> My Donations</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <hr>
+                    <form class="form" action="" method="POST" id="registrationForm" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div>
+                            <div class="col-xs-12">
+                                <h2 style="font-weight: bolder">Basic Info</h2>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="first_name"><h4>First name</h4></label>
+                                {% if request.user.first_name %}
+                                    <input type="text" class="form-control" name="first_name" id="first_name"
+                                           value="{{ account_form.initial.first_name }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="first_name" id="first_name"
+                                           placeholder="enter first name">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="last_name"><h4>Last name</h4></label>
+                                {% if request.user.last_name %}
+                                    <input type="text" class="form-control" name="last_name" id="last_name"
+                                           value="{{ account_form.initial.last_name }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="last_name" id="last_name"
+                                           placeholder="enter last name">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="email"><h4>Email</h4></label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                       placeholder="you@email.com" disabled value="{{ email }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="username"><h4>user name</h4></label>
+                                {% if request.user.username %}
+                                    <input type="text" class="form-control" name="username" id="username"
+                                           value="{{ account_form.initial.username }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="username" id="username"
+                                           placeholder="enter username">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="mobile"><h4>Mobile</h4></label>
+                                {% if request.user.mobile %}
+                                    <input type="text" class="form-control" name="mobile" id="mobile"
+                                           value="{{ account_form.initial.mobile }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="mobile" id="mobile"
+                                           placeholder="enter mobile number">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="profile_picture"><h4>Profile Picture</h4></label>
+                                <input type="file" id="id_profile_picture" class="form-control" name="profile_picture"
+                                       value="{{ account_form.initial.profile_picture }}">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="col-xs-12">
+                                <h2 style="font-weight: bolder">Personal Info</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="country"><h4>Country</h4></label>
+                                {% if request.user.country %}
+                                    <input type="text" class="form-control" name="country" id="country"
+                                           value="{{ account_form.initial.country }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="country" id="country"
+                                           placeholder="enter your country">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="birthdate"><h4>Birthdate</h4></label>
+                                {% if request.user.birthdate %}
+                                    <input type="date" name="birthdate" class="form-control" id="birthdate"
+                                           value="{{ account_form.initial.birthdate }}">
+                                {% else %}
+                                    <input type="date" name="birthdate" class="form-control" id="birthdate">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="facebook_profile"><h4>facebook_profile</h4></label>
+                                {% if request.user.facebook_profile %}
+                                    <input type="text" class="form-control" name="facebook_profile"
+                                           id="facebook_profile"
+                                           value="{{ account_form.initial.facebook_profile }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="facebook_profile"
+                                           id="facebook_profile" placeholder="enter your facebook url">
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-xs-12" style="margin-bottom: 30px">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit" style="width: 150px"><i
+                                        class="glyphicon glyphicon-ok-sign"></i> Update
+                                </button>
+                                <a href="{% url 'delete' %}" id="delete_profile" class="btn btn-lg btn-danger"
+                                   style="margin-left: 170px"><i class="glyphicon glyphicon-trash"></i> Delete
+                                    Profile</a>
+
+                                <a href="{% url 'home' %}" id="delete_profile" class="btn btn-lg btn-primary"
+                                   style="margin-left: 150px"><i class="glyphicon glyphicon-home"></i> Home</a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+                </div><!--/tab-pane-->
+
+
+                <div class="tab-pane" id="messages">
+                    <hr>
+                    <div class="call-sm-12">
+                        <h3 style="text-align: center"><i class="fab fa-codepen"></i> You have {{ user_project.count }}
+                            project(s)</h3>
+                    </div>
+                    <div class="w3-container" style="display: flex;align-items: center;margin-top: 20px">
+                        {% for project in user_project %}
+                            <a href="/project/{{ project.id }}">
+                                <div class="w3-card-4" style="width:35%;height:180px;margin-right: 30px">
+                                    <img src="/images/{{ project.images.first }}" alt="Alps"
+                                         style="width:100%;height: 200px">
+                            </a>
+                            <div class="w3-container w3-center">
+                                <h4>{{ project.title }}</h4>
+                            </div>
+                            </div>
+
+                            {% empty %}
+                            <h2 style="margin-left: 180px;margin-top: 30px">You do not have projects for now!</h2>
+                        {% endfor %}
+                </div>
+            </div>
+
+            <div class="tab-pane" id="settings">
+                <hr>
+                <div class="call-sm-12">
+                    <h3 style="text-align: center"><i class="fab fa-codepen"></i> You
+                        donated {{ donations.count }} project(s)</h3>
+                </div>
+                <div class="w3-container" style="display: flex;align-items: center;margin-top: 20px">
+                    {% for project in donations %}
+                        <a href="/project/{{ project.id }}">
+                            <div class="w3-card-4" style="width:35%;height:180px;margin-right: 30px">
+                                <img src="/images/{{ project.images.first }}" alt="Alps"
+                                     style="width:100%;height: 200px">
+                        </a>
+                        <div class="w3-container w3-center">
+                            <span>Target: ${{ project.total_target }} </span>
+                            <span>Current: ${{ total_donate }} </span>
+                        </div>
+                        </div>
+
+                        {% empty %}
+                        <h2 style="margin-left: 140px;margin-top: 30px"> Currently you don't have any donations !</h2>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+</div><!--/col-9-->
+</div><!--/row-->
+
+
+<script>
+    $(document).ready(function () {
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+    });
+
+    let delete_profile = document.getElementById("delete_profile")
+    delete_profile.addEventListener("click", (e) => {
+        e.preventDefault()
+        if (confirm('Are you sure you want to delete your account?')) {
+            location.href = "{% url 'delete' %}";
+        } else {
+            location.href = "{% url 'profile' %}";
+        }
+    })
+</script>
+</body>
+</html>
+
